@@ -26,24 +26,15 @@ def sub(host):
     
         mp = MultiPing([host])
         mp.send()
+        RTT=0
 
             # With a 1 second timout, wait for responses (may return sooner if all
             # results are received).
-        responses, no_responses = mp.receive(1)
-        for addr, rtt in responses.items():
+        responses, _ = mp.receive(1)
+        for _, rtt in responses.items():
             RTT = rtt
 
         return RTT
-'''
 
-        if no_responses:
-                # Sending pings once more, but just to those addresses that have not
-                # responded, yet.
-            mp.send()
-            responses, no_responses = mp.receive(1)
-            RTT = -1
-       
-
-'''
 #Getting the latency average (in seconds) of host '192.168.79.7' using 10 samples
-ping('192.168.79.7',10)
+ping('192.168.78.50',10)
