@@ -1,40 +1,33 @@
 from multiping import MultiPing
+import time,sys
 
-def ping(host,n):
-    avg=0
-    ret_value_list=[]
-    pass_fail_list=[]
-    for i in range (n):
-        ret_value=sub(host)
-        
-        if ret_value==0.0:
-            pass_fail_list.append('Fail')
-        else:
-            pass_fail_list.append('Pass')
-            
-            
-        #print('Return value for Number {} ping is {}'.format(i,ret_value))
-        ret_value_list.append(ret_value)
-        
-        
-    else:
-        avg=sum(ret_value_list)/n
-        print( "{} '\n'{}".format(pass_fail_list,ret_value_list))
-        print('Average Return value for {} ping is {}'.format(n,avg))
-        
-def sub(host):
-    
-        mp = MultiPing([host])
+def ping(ip_addr,iterations):
+    total_rtt=0
+    average_rtt=0
+    no_responses_cnt=0
+    rtt_list=[]
+
+
+    for i in range(iterations):
+        time.sleep(0.2)
+        mp = MultiPing([ip_addr])
         mp.send()
-        RTT=0
+        responses, no_responses = mp.receive(1)
 
-            # With a 1 second timout, wait for responses (may return sooner if all
-            # results are received).
-        responses, _ = mp.receive(1)
-        for _, rtt in responses.items():
-            RTT = rtt
+        for addr, rtt in responses.items():
+            #print("{} responded in {} seconds".format(addr, rtt))
+            rtt_list.append(rtt)
+            total_rtt+=rtt
 
-        return RTT
+        if no_responses:
+            print ("These addresses did not respond: {}".format(no_responses))
+            no_responses_cnt+=1
 
-#Getting the latency average (in seconds) of host '192.168.79.7' using 10 samples
-ping('192.168.78.50',10)
+        
+    average_rtt=(total_rtt/iterations)*1000
+    loss = (no_responses_cnt/iterations)*100
+
+    print('\n'"Average Round-trip time is {} ms".format(average_rtt))
+    print("Loss is {}%".format(loss))
+
+    return average_rtt, loss
