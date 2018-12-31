@@ -1,5 +1,5 @@
 FROM python:latest
 WORKDIR /root
-COPY ping.py .
-RUN pip install multiping
-ENTRYPOINT [ "python", "/root/ping.py" ]
+RUN pip install multiping pytest
+COPY *.py ./
+ENTRYPOINT [ "pytest", "-v", "-s", "--tb=no" ]

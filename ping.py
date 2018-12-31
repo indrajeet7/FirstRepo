@@ -14,13 +14,13 @@ def ping(ip_addr,iterations):
         mp.send()
         responses, no_responses = mp.receive(1)
 
-        for addr, rtt in responses.items():
+        for _, rtt in responses.items():
             #print("{} responded in {} seconds".format(addr, rtt))
             rtt_list.append(rtt)
             total_rtt+=rtt
 
         if no_responses:
-            print ("These addresses did not respond: {}".format(no_responses))
+            print ("These address did not respond: {}".format(no_responses))
             no_responses_cnt+=1
 
         
