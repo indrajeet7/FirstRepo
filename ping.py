@@ -27,7 +27,7 @@ def ping(ip_addr,iterations):
     average_rtt=(total_rtt/iterations)*1000
     loss = (no_responses_cnt/iterations)*100
 
-    print('\n'"Average Round-trip time is {} ms".format(average_rtt))
+    print("Average Round-trip time is {} ms".format(average_rtt))
     print("Loss is {}%".format(loss))
 
     return average_rtt, loss

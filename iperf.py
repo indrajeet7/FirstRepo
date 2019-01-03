@@ -1,27 +1,30 @@
-import iperf3,json
+import iperf3
 
-def throughput(server_ip, port, is_udp=False): 
+def throughput_tcp(server_ip, port, duration=10):
     client = iperf3.Client()
     client.server_hostname = server_ip
     client.port = port
+    client.duration=duration
 
-    key = "sum_received"
+    response=client.run()
+    mbps=response.sent_Mbps
 
-    if is_udp == True:
-        client.protocol = 'udp'
-        key = "sum"
-    res = client.run()
-    bps = 0
+    return mbps
 
-    try:
-        j_res = json.loads(str(res))
-        bps = j_res["end"][key]["bits_per_second"]/10**6
 
-    except Exception as e:
-        print("Could not process", e)
+def throughput_udp(server_ip, port, bandwidth, duration=10):
+    client = iperf3.Client()
+    client.server_hostname = server_ip
+    client.port = port
+    client.duration=duration
 
-    else:
-        return bps
+    client.protocol = 'udp'
+    client.bandwidth = bandwidth
 
-    return None
+    response=client.run()
+    mbps=response.Mbps
+    loss=response.lost_percent
+    return mbps, loss
+
+
 
