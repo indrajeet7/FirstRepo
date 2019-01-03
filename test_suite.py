@@ -1,5 +1,5 @@
 from ping import *
-from iperfnew import *
+from iperf import *
 
 ip_addr='192.168.78.50'
 ping_count=10
