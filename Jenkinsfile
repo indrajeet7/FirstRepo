@@ -1,10 +1,28 @@
 pipeline {
   agent any
   stages {
-    stage('build') {
+    stage('Build Image') {
       steps {
-        sh 'docker build -t eero .'
+        sh 'docker build -t localhost:5000/${IMAGE_NAME}:${BUILD_NUMBER} .'
       }
     }
+    stage('Push Image') {
+      steps {
+        sh 'docker push localhost:5000/${IMAGE_NAME}:${BUILD_NUMBER}'
+      }
+    }
+    stage('Distribute') {
+      steps {
+        sh '''curl --fail --header "Content-Type: application/json" \\
+  --request POST \\
+  --data \'{   "url" : "\'${REGISTRY}\'",   "tag" : "\'${BUILD_NUMBER}\'",   "image" : "\'${IMAGE_NAME}\'" }\' \\
+  ${AGENT1}/pull'''
+      }
+    }
+  }
+  environment {
+    IMAGE_NAME = 'eero'
+    REGISTRY = '192.168.78.110:5000'
+    AGENT1 = '192.168.78.219:8000'
   }
 }
