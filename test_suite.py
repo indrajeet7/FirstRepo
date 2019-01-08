@@ -1,5 +1,5 @@
 from ping import *
-from iperfnew import *
+from iperf import *
 
 ip_addr='192.168.78.50'
 ping_count=10
@@ -26,6 +26,7 @@ def test_iperf_tcp():
     # Fail condition
     assert  mbps>95
 
+'''
 def test_iperf_udp():
     print ("\nStart iperf UDP test :: Server={}  Port={} Bandwidth={}".format(ip_addr, iperf_port, bandwidth))
     mbps, loss=throughput_udp(ip_addr,iperf_port,bandwidth)
@@ -35,4 +36,4 @@ def test_iperf_udp():
 
     # Fail condition
     assert mbps>95 and loss<5
-
+'''
