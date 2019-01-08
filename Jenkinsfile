@@ -30,13 +30,14 @@ pipeline {
     }
     stage('Check logs') {
       steps {
-        sh '''grep -B4 "FAILED" test.log
+        sh '''#!/bin/bash
+grep -B4 "FAILED" test.log
 
 ret=$?
-if [ $ret -ne 0 ]; then
-    return 0
+if [ $ret -eq 0 ]; then
+exit 1
 else
-    return 1
+    exit 0
 fi'''
       }
     }
@@ -44,6 +45,6 @@ fi'''
   environment {
     IMAGE_NAME = 'eero'
     REGISTRY = '192.168.78.110:5000'
-    AGENT1 = '192.168.78.219:8000'
+    AGENT1 = '192.168.78.51:8000'
   }
 }
