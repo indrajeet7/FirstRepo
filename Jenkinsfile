@@ -33,6 +33,7 @@ pipeline {
         sh '''#!/bin/bash
 grep -B4 "FAILED" test.log
 
+
 ret=$?
 if [ $ret -eq 0 ]; then
 exit 1
