@@ -19,28 +19,8 @@ pipeline {
   ${AGENT1}/pull'''
       }
     }
-    stage('Test') {
-      steps {
-        sh '''curl -s --header "Content-Type: application/json" \\
-  --request POST \\
-  --data \'{   "url" : "\'${REGISTRY}\'",   "tag" : "\'${BUILD_NUMBER}\'",   "image" : "\'${IMAGE_NAME}\'" }\' \\
-  ${AGENT1}/test -o test.log'''
-        archiveArtifacts 'test.log'
-      }
-    }
-    stage('Check logs') {
-      steps {
-        sh '''#!/bin/bash
-grep -B4 "FAILED" test.log
 
-ret=$?
-if [ $ret -eq 0 ]; then
-exit 1
-else
-    exit 0
-fi'''
-      }
-    }
+    
   }
   environment {
     IMAGE_NAME = 'eero'
