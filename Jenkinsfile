@@ -46,6 +46,6 @@ fi'''
   environment {
     IMAGE_NAME = 'eero'
     REGISTRY = '192.168.78.110:5000'
-    AGENT1 = '192.168.78.51:8000'
+    AGENT1 = '192.168.0.3:8000'
   }
 }
