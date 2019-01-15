@@ -1,8 +1,8 @@
 from ping import *
 from iperf import *
 
-ip_addr='192.168.0.5'
-ping_count=10
+ip_addr='192.168.0.'
+ping_count=102
 iperf_port=5201
 bandwidth=100*(10**6)
 
