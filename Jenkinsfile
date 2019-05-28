@@ -42,6 +42,11 @@ else
 fi'''
       }
     }
+    stage('some') {
+      steps {
+        echo 'Done'
+      }
+    }
   }
   environment {
     IMAGE_NAME = 'eero'
